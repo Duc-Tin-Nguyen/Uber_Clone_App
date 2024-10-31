@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/checkout.css') }}">
+</head>
+
+<body>
+    <div class="black-block">
+        <img src="{{ url_for('static', filename='uber_logo.png') }}" alt="Your Logo" class="logo">
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center">Payment Details</h1>
+                {% if trip_cost and user_email %}
+                    <p>Bill To: {{ user_email }}</p>
+                    <p>${{ trip_cost }}</p>
+                    <form id="paymentForm" action="/confirm_payment" method="post">
+                        <button type="submit" onclick="showPaymentConfirmation()" class="btn btn-dark btn-block">Submit Information via Email</button>
+                    </form>
+                {% else %}
+                    <p>No trip cost available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPaymentConfirmation() {
+            alert("Payment confirmed. An email has been sent to your email address.");
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

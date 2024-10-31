@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/authentication.css') }}">
+</head>
+<body>
+    <div class="black-block">
+        <img src="static/uber_logo.png" alt="Your Logo" class="logo">
+    </div>
+    <div class="container">
+        <form method="POST" id="login-form" action="{{ url_for('login', role=request.args.get('role')) }}">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                <label class="form-label" for="username">{{ form.username.label }}</label><br>
+                {{ form.username(class="form-control", id="username") }}
+                {% for error in form.username.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="password">{{ form.password.label }}</label><br>
+                {{ form.password(class="form-control", id="password") }}
+                {% for error in form.password.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </div>
+        </form>
+        <p class="or-divider">or</p>
+        <div class="mb-3">
+            <p class="register-link"><a href="{{ url_for('register', role=request.args.get('role')) }}" class="btn btn-register">Register</a>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="static/validation.js"></script>
+</body>
+</html>

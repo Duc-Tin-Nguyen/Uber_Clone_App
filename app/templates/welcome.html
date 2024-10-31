@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Money by Driving or Get a Ride Now</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/welcome.css') }}">
+</head>
+<body>
+    <div class="black-block">
+        <img src="{{ url_for('static', filename='uber_logo.png') }}" alt="Your Logo" class="logo">
+        <div class="buttons">
+            <button class="btn btn-outline-light rounded-pill login-button" onclick="showFullWidthBox('login')">Login</button>
+            <button class="btn btn-outline-light rounded-pill signup-button" onclick="showFullWidthBox('register')">Sign Up</button>
+        </div>
+    </div>
+
+    <p class="custom-text-style">
+        Log in to access <br> your account
+    </p>
+
+    <img src="{{ url_for('static', filename='uber_hp_logo.png') }}" alt="Your Image" class="custom-image-style">
+
+    <div class="full-width-box full-width-box-with-image">
+        <img src="{{ url_for('static', filename='box_bg.png') }}" alt="Background Image" class="background-img">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="function-buttons">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <button class="btn btn-user btn-lg btn-block rounded-pill" onclick="redirectPage('login', 'user')">User</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-driver btn-lg btn-block rounded-pill" onclick="redirectPage('login', 'driver')">Driver</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-dark rounded-pill uber-font exit-button" onclick="hideFullWidthBox()">X</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/uber-fonts/releases/v0.0.2/uber-fonts.css"></script>
+    <script src="{{ url_for('static', filename='scripts/welcome.js') }}"></script>
+</body>
+</html>

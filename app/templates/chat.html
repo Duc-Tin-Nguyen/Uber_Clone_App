@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/chat.css') }}">
+</head>
+<style>
+    
+
+</style>
+    <body>
+    <div class="black-block">
+        <img src="{{ url_for('static', filename='uber_logo.png') }}" alt="Your Logo" class="logo">
+       
+        </div>
+    </div>
+
+    <div id="chat-container">
+        <div id="chat-history">
+
+
+        <div>
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button id="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    {% if user.role == 'user' %}
+    <div>
+        <button class="action-button" onclick="redirectToPayment()">Pay for Ride</button>
+    </div>
+    {% endif %}
+    {% if user.role == 'driver' %}
+    <div>
+        <a class="confirmation-button" href="{{ url_for('earnings', ride_id=ride_id) }}">Confirm Arrival</a>
+    </div>
+    {% endif %}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+
+
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+function displayMessage(messageData) {
+            var chatHistory = document.getElementById('chat-history');
+            var messageElement = document.createElement('p');
+            var senderInfo = `${messageData.sender} (${messageData.role})`;
+            
+            messageElement.textContent = `${senderInfo}: ${messageData.message} (${messageData.timestamp})`;
+            chatHistory.appendChild(messageElement);
+        }
+
+
+        function isDuplicateMessage(messageData) {
+            var chatHistory = document.getElementById('chat-history');
+            var messages = chatHistory.getElementsByTagName('p');
+
+            for (var i = 0; i < messages.length; i++) {
+                if (messages[i].textContent === `${messageData.sender}: ${messageData.message} (${messageData.timestamp})`) {
+                    return true; 
+                }
+            }
+
+            var messageInput = document.getElementById('message-input');
+            var currentMessage = `${messageData.sender}: ${messageInput.value.trim()} (${messageData.timestamp})`;
+
+            if (currentMessage === `${messageData.sender}: ${messageData.message} (${messageData.timestamp})`) {
+                return true; 
+            }
+
+            return false; 
+        }
+
+        function sendMessage() {
+            var messageInput = document.getElementById('message-input');
+            var message = messageInput.value.trim();
+
+            if (message !== '') {
+                var messageData = {
+                    sender: '{{ user.username }}',
+                    role: '{{ user.role }}',  
+                    receiver: 'driver', 
+                    message: message,
+                    timestamp: new Date().toLocaleString(),
+                    ride_id: '{{ ride_id }}'
+                };
+
+                socket.emit('send_message', messageData);
+
+                if (!isDuplicateMessage(messageData)) {
+                    displayMessage(messageData);
+                }
+
+                messageInput.value = '';
+            }
+        }
+
+        socket.on('receive_message', function (messageData) {
+            if (!isDuplicateMessage(messageData)) {
+                displayMessage(messageData);
+            }
+        });
+
+        function redirectToPayment() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var tripCost = urlParams.get('trip_cost');
+
+            if (tripCost !== null) {
+                window.location.href = '/payment?trip_cost=' + tripCost;
+            } else {
+                alert('Trip cost not available. Cannot proceed to payment.');
+            }
+        }
+
+    </script>
+
+</body>
+</html>

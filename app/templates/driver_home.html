@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Earn Money by Driving</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABdGoPrYmiq5r3fur6Q3kVFGUXrKTNg3s&libraries=places&language=en" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/driver_home.css') }}">
+</head>
+
+<body>
+    <div class="black-block">
+        <img src="{{ url_for('static', filename='uber_logo.png') }}" alt="Your Logo" class="logo">
+    </div>
+    <div class="container">
+        <h1 class="uber-font">Welcome, {{ user.username }}</h1>
+        <h2 class="uber-font">Ride Requests:</h2>
+
+    <div>
+        {% if ride_requests %}
+            <table id="rideRequestsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Ride ID</th>
+                        <th onclick="sortTable(1)">Client</th>
+                        <th onclick="sortTable(3)">Status</th>
+                        <th onclick="sortTable(4)">Pickup Location</th>
+                        <th onclick="sortTable(5)">Dropoff Location</th>
+                        <th onclick="sortTable(6)">Earn</th>  
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ride_request in ride_requests %}
+                        <tr>
+                            <td>{{ ride_request._id }}</td>
+                            <td>{{ ride_request.username }}</td>
+                            <td>{{ ride_request.status }}</td>
+                            <td>{{ ride_request.origin }}</td>
+                            <td>{{ ride_request.destination }}</td>
+                            <td>{{ ride_request.trip_cost }}</td>  
+                            <td>
+                            <button class="btn btn-primary view-location" onclick="viewPickupLocation('{{ ride_request.origin_lat }}', '{{ ride_request.origin_lng }}')">View Location</button>
+                            <button class="btn btn-success confirm-ride" onclick="confirmRide('{{ ride_request._id }}')">Confirm Ride</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No ride requests at the moment.</p>
+        {% endif %}
+    </div>
+
+        <div id="pickupLocationMap"></div>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/driver_home.js') }}"></script>       
+</body>
+
+</html>

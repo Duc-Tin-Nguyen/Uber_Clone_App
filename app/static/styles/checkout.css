@@ -1,0 +1,53 @@
+.black-block {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+}
+
+.logo {
+    max-height: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    body {
+        background-color: #EEEEEE ;
+        color: #fff;
+        padding: 20px;
+    }
+
+    .container {
+        margin-top: 65px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        width: 40%;
+    }
+
+    h1 {
+        color: #000;
+    }
+
+    p {
+        margin-bottom: 10px;
+        color: black;
+    }
+
+    #paymentForm {
+        margin-top: 20px;
+    }
+
+    #paymentForm button {
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+    }   
